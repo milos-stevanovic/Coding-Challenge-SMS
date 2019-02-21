@@ -11,6 +11,7 @@ import { GridFilterComponent } from './data-grid/grid-filter/grid-filter.compone
 import { GridViewComponent } from './data-grid/grid-view/grid-view.component';
 import {MatDatepickerModule, MatInputModule, MatNativeDateModule, MatSortModule} from "@angular/material";
 import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-browser/animations";
+import { NavigationComponent } from './navigation/navigation.component';
 
 
 const appRoutes: Routes = [
@@ -25,7 +26,8 @@ const appRoutes: Routes = [
     DataGridComponent,
     FormValidationComponent,
     GridFilterComponent,
-    GridViewComponent
+    GridViewComponent,
+    NavigationComponent
 
   ],
   imports: [
