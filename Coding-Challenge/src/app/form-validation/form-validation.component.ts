@@ -19,7 +19,7 @@ export class FormValidationComponent implements OnInit {
     this.registerForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]],
-      confirmPassword: ['',[Validators.required, Validators.minLength(8)]]
+      confirmPassword: ['',[Validators.required]]
     }, {
       validator: PasswordValidation.MatchPassword
     });
