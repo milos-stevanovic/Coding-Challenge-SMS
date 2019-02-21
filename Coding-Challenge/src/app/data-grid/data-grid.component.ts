@@ -13,8 +13,6 @@ export class DataGridComponent implements OnInit {
   private gridIsLoaded = false; // TODO: After grid is loaded show gridview in meanwhile show "Grid is loading"
   public dataSource: JsonModel[];
   private defaultSource: JsonModel[];
-
-
   constructor(private dataService: DataGridService) { } //impalement data service. We can also transfer data to other components. But it is small application we can use Input(), Output() EventEmitter
 
   ngOnInit() {
@@ -57,39 +55,36 @@ export class DataGridComponent implements OnInit {
     return (dateA.getTime() < dateB.getTime() ? -1 : 1) * (isAsc ? 1 : -1);
   }
 
-  //Filter gridSource with selected dates TODO: Create filter condition builder
+  //Filter gridSource with selected dates TODO: Create filter return condition builder
   filterGridData(selectedDates){
-    // Both date selectors is passed to method
-    if(selectedDates.start_date && selectedDates.end_date){
-      const selectedStartDate = new Date (selectedDates.start_date);
-      const selectedEndDate = new Date (selectedDates.end_date);
-      this.dataSource = this.defaultSource.filter( (dates) => {
-        const startDate = new Date(dates.start_date);
-        const endDate = new Date(dates.end_date);
-        return selectedEndDate.getTime() == endDate.getTime() && selectedStartDate.getTime() == startDate.getTime();
-      });
+    const selectedStartDate = new Date (selectedDates.start_date);
+    const selectedEndDate = new Date (selectedDates.end_date);
+    switch (true)
+    {
+      case (isNaN(selectedDates.start_date) && isNaN(selectedDates.end_date)):// Both date selectors is used in filter
+        this.dataSource = this.defaultSource.filter( (dates) => {
+          return selectedEndDate.getTime() == new Date(dates.end_date).getTime() && selectedStartDate.getTime() == new Date(dates.start_date).getTime();
+        });
+        break;
+      case  isNaN(selectedDates.start_date):// Start date selectors is used in  filter
+        this.dataSource = this.defaultSource.filter( (dates) => {
+          return selectedStartDate.getTime() == new Date(dates.start_date).getTime();
+        });
+        break;
+      case isNaN(selectedDates.end_date): // End date selectors is used in  filter
+        this.dataSource = this.defaultSource.filter( (dates) => {
+          return selectedEndDate.getTime() == new Date(dates.end_date).getTime()
+        });
+        break;
 
-    }else if(selectedDates.start_date ){
-      // Start date selectors is passed to method
-      const selectedStartDate = new Date (selectedDates.start_date);
-      this.dataSource = this.defaultSource.filter( (dates) => {
-        const startDate = new Date(dates.start_date);
-        return selectedStartDate.getTime() == startDate.getTime();
-      });
-    }else if(selectedDates.end_date){
-      // End date selectors is passed to method
-      const selectedEndDate = new Date (selectedDates.end_date);
-      this.dataSource = this.defaultSource.filter( (dates) => {
-        const endDate = new Date(dates.end_date);
-        return selectedEndDate.getTime() == endDate.getTime()
-      });
-    }else{ this.dataSource = this.defaultSource }//no filter is selected: Could use validation on date pickers to remove this method
+      default: //no filter is selected: Could use validation on date pickers to remove this condition
+        this.dataSource = this.defaultSource
+    }
   }
 
   //Clear Data source to default values
   clearGridData(){
     this.dataSource = this.defaultSource;
   }
-
   //TODO: Create pagination for data grid-view
 }
