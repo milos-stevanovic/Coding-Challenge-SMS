@@ -1,0 +1,19 @@
+<div class="panel panel-default">
+  <div class="panel-heading">Filter dates Start Date and End Date </div>
+  <div class="panel-body">
+    <mat-form-field>
+      <input matInput [matDatepicker]="startDate"  #startDateInput placeholder="Choose Start Date">
+      <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+      <mat-datepicker #startDate></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput [matDatepicker]="endDate" #endDateInput placeholder="Choose End Date">
+      <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
+      <mat-datepicker #endDate></mat-datepicker>
+    </mat-form-field>
+    <div class="btn-group" role="group" aria-label="...">
+      <button type="button" class="btn btn-primary" (click)="filterDates(startDateInput , endDateInput)"> <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>Filter</button>
+      <button type="button" class="btn btn-warning" (click)="clearDates(startDateInput , endDateInput)">Clear Filter</button>
+    </div>
+  </div>
+</div>

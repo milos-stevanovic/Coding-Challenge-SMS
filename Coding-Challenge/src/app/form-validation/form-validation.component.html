@@ -1,0 +1,55 @@
+<h3>Form Validation</h3>
+<hr>
+<!-- main app container -->
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label>Email</label>
+            <input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+            <div *ngIf="submitted && f.email.errors; else successEmail" class="invalid-feedback">
+              <div *ngIf="f.email.errors.required">Email is required</div>
+              <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+            </div>
+            <ng-template #successEmail>
+              <div *ngIf="submitted" class="valid-feedback">
+                Looks good!
+              </div>
+            </ng-template>
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+            <div *ngIf="submitted && f.password.errors; else successPassword" class="invalid-feedback">
+              <div *ngIf="f.password.errors.required">Password is required</div>
+              <div *ngIf="f.password.errors.minlength">Password must be at least 8 characters</div>
+            </div>
+            <ng-template #successPassword>
+              <div *ngIf="submitted" class="valid-feedback">
+                Looks good!
+              </div>
+            </ng-template>
+          </div>
+          <div class="form-group">
+            <label>Confirm Password</label>
+            <input type="password" formControlName="confirmPassword" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }" />
+            <div *ngIf="submitted && f.confirmPassword.errors; else successPasswordConfirm" class="invalid-feedback">
+              <div *ngIf="f.confirmPassword.errors.required">Confirm password is required</div>
+              <div *ngIf="f.confirmPassword.errors?.MatchPassword">Confirm password not match</div>
+            </div>
+            <ng-template #successPasswordConfirm>
+              <div *ngIf="submitted" class="valid-feedback">
+                Looks good!
+              </div>
+            </ng-template>
+          </div>
+          <div class="form-group">
+            <button class="btn btn-primary">Register</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+

@@ -1,0 +1,24 @@
+<table matSort class="table table-bordered table-hover table-responsive" (matSortChange)="sortChangeAction($event)">
+  <thead>
+  <tr>
+    <th mat-sort-header="id">#</th>
+    <th mat-sort-header="city">City</th>
+    <th mat-sort-header="start_date">Start Date</th>
+    <th mat-sort-header="end_date">End Date</th>
+    <th mat-sort-header="price">Price</th>
+    <th mat-sort-header="status">Status</th>
+    <th mat-sort-header="color">Color</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let row of dataGridViewSource;">
+    <td>{{ row.id }}</td>
+    <td>{{ row.city }}</td>
+    <td>{{ row.start_date }}</td>
+    <td>{{ row.end_date}}</td>
+    <td>{{ row.price }}</td>
+    <td>{{ row.status }}</td>
+    <td [ngStyle]="{backgroundColor : row.color}">{{ row.color }}</td>
+  </tr>
+  </tbody>
+</table>

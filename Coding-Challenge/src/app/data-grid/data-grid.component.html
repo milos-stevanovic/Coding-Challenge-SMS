@@ -1,0 +1,7 @@
+<h3>Data Grid</h3>
+<hr>
+<app-grid-filter (filterGridFromComponent)="filterGridData($event)" (clearGridFromComponent)="clearGridData()"></app-grid-filter>
+<hr>
+<app-grid-view [dataGridViewSource]="dataSource" (matSortChange)="sortData($event)"></app-grid-view>
+
+
