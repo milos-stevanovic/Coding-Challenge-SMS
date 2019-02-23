@@ -1,4 +1,4 @@
-<table *ngIf="dataGridViewSource.length else noData" matSort class="table table-bordered table-hover table-responsive" (matSortChange)="sortChangeAction($event)">
+<table *ngIf="dataGridViewSource.length else noData"  matSort class="table table-bordered table-hover table-responsive"  (matSortChange)="sortChangeAction($event)">
   <thead>
   <tr>
     <th mat-sort-header="id">#</th>
@@ -11,7 +11,7 @@
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let row of dataGridViewSource;">
+  <tr *ngFor="let row of dataGridViewSource; ">
     <td>{{ row.id }}</td>
     <td>{{ row.city }}</td>
     <td>{{ row.start_date }}</td>
@@ -23,5 +23,6 @@
   </tbody>
 </table>
 <ng-template #noData>
-  <div class="alert alert-warning" role="alert">No data to display. Please select other filter dates or clear filter</div>
+  <div *ngIf="!isRendered" class="alert alert-success" role="alert">Grid is populating...</div>
+  <div *ngIf="isRendered" class="alert alert-warning" role="alert">No data to display. Please select other filter dates or clear filter </div>
 </ng-template>

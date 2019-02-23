@@ -10,9 +10,9 @@ import {Sort} from "@angular/material";
   providers: [DataGridService]
 })
 export class DataGridComponent implements OnInit {
-  private gridIsLoaded = false; // TODO: After grid is loaded show gridview in meanwhile show "Grid is loading"
-  public dataSource: JsonModel[];
-  private defaultSource: JsonModel[];
+  public dataSource: JsonModel[] = []; //Main Data Source for Grid
+  private defaultSource: JsonModel[]; //Copy Of Main Data Source
+  private filteredSource: JsonModel[] = [];//Filtered Data Source
   constructor(private dataService: DataGridService) { } //impalement data service. We can also transfer data to other components. But it is small application we can use Input(), Output() EventEmitter
 
   ngOnInit() {
@@ -26,7 +26,7 @@ export class DataGridComponent implements OnInit {
   sortData(sort: Sort) {
     const data = this.dataSource.slice(); //Give same new object with slice()
     if (!sort.active || sort.direction === '') {
-      this.dataSource = this.defaultSource; //Sort is in default mode
+      this.dataSource = !this.filteredSource.length ? this.defaultSource : this.filteredSource ; //Sort is in default mode (No Sort). If is data already filtered use (filteredSource)
       return;
     }
 
@@ -49,16 +49,16 @@ export class DataGridComponent implements OnInit {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
 
+  //compare dates for sorting function
   compareDates(a: Date , b: Date, isAsc: boolean){
     const dateA = new Date(a);
     const dateB = new Date(b);
     return (dateA.getTime() < dateB.getTime() ? -1 : 1) * (isAsc ? 1 : -1);
   }
 
-
   //Filter gridSource with selected column filter object (example: {start_date: value, end_Date: value, ........})
   filterGridData(filterColumnsObject){
-    this.dataSource = this.multiFilter(this.defaultSource, filterColumnsObject);
+    this.dataSource = this.filteredSource = this.multiFilter(this.defaultSource, filterColumnsObject);
   }
 
   //Multi Filter Builder, Pass filter object array filter columns and filter key values.
@@ -78,6 +78,7 @@ export class DataGridComponent implements OnInit {
   //Clear Data source to default values
   clearGridData(){
     this.dataSource = this.defaultSource;
+    this.filteredSource = [];
   }
   //TODO: Create pagination for data grid-view
 }
