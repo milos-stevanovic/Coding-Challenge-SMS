@@ -55,32 +55,26 @@ export class DataGridComponent implements OnInit {
     return (dateA.getTime() < dateB.getTime() ? -1 : 1) * (isAsc ? 1 : -1);
   }
 
-  //Filter gridSource with selected dates TODO: Create filter return condition builder
-  filterGridData(selectedDates){
-    const selectedStartDate = new Date (selectedDates.start_date);
-    const selectedEndDate = new Date (selectedDates.end_date);
-    switch (true)
-    {
-      case (isNaN(selectedDates.start_date) && isNaN(selectedDates.end_date)):// Both date selectors is used in filter
-        this.dataSource = this.defaultSource.filter( (dates) => {
-          return selectedEndDate.getTime() == new Date(dates.end_date).getTime() && selectedStartDate.getTime() == new Date(dates.start_date).getTime();
-        });
-        break;
-      case  isNaN(selectedDates.start_date):// Start date selectors is used in  filter
-        this.dataSource = this.defaultSource.filter( (dates) => {
-          return selectedStartDate.getTime() == new Date(dates.start_date).getTime();
-        });
-        break;
-      case isNaN(selectedDates.end_date): // End date selectors is used in  filter
-        this.dataSource = this.defaultSource.filter( (dates) => {
-          return selectedEndDate.getTime() == new Date(dates.end_date).getTime()
-        });
-        break;
 
-      default: //no filter is selected: Could use validation on date pickers to remove this condition
-        this.dataSource = this.defaultSource
-    }
+  //Filter gridSource with selected column filter object
+  filterGridData(filterColumnsObject){
+    this.dataSource = this.multiFilter(this.defaultSource, filterColumnsObject);
   }
+
+  //Multi Filter Builder, Pass filter object array filter columns and filter key values.
+  multiFilter(array, filters) {
+    const filterKeys = Object.keys(filters);
+    // filters all elements passing the criteria
+    return array.filter((item) => {
+      // dynamically validate all filter criteria
+      return filterKeys.every(key => {
+        // ignores an empty filter
+        if (!isNaN(filters[key])) return true;
+        return filters[key].includes(item[key]);
+      });
+    });
+  }
+
 
   //Clear Data source to default values
   clearGridData(){
