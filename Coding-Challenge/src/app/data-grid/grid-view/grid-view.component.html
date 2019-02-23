@@ -1,4 +1,4 @@
-<table matSort class="table table-bordered table-hover table-responsive" (matSortChange)="sortChangeAction($event)">
+<table *ngIf="dataGridViewSource.length else noData" matSort class="table table-bordered table-hover table-responsive" (matSortChange)="sortChangeAction($event)">
   <thead>
   <tr>
     <th mat-sort-header="id">#</th>
@@ -22,3 +22,6 @@
   </tr>
   </tbody>
 </table>
+<ng-template #noData>
+  <div class="alert alert-warning" role="alert">No data to display. Please select other filter dates or clear filter</div>
+</ng-template>
