@@ -56,7 +56,7 @@ export class DataGridComponent implements OnInit {
   }
 
 
-  //Filter gridSource with selected column filter object
+  //Filter gridSource with selected column filter object (example: {start_date: value, end_Date: value, ........})
   filterGridData(filterColumnsObject){
     this.dataSource = this.multiFilter(this.defaultSource, filterColumnsObject);
   }
@@ -74,7 +74,6 @@ export class DataGridComponent implements OnInit {
       });
     });
   }
-
 
   //Clear Data source to default values
   clearGridData(){
